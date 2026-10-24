@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/sections/hero_section.dart';
 import 'package:portfolio/widgets/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,52 +51,12 @@ class _HomePageState extends State<HomePage> {
       body: SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(top: 16),
           controller: _scrollController,
           child: Column(
             children: [
-              //* Random
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
-              Text("gwgwgwgwgw"),
+              //* Hero Section
+              HeroSection(),
             ],
           ),
         ),
