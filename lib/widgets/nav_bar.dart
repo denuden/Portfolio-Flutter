@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/theme/theme.dart';
+import 'package:portfolio/widgets/content_wrap.dart';
+
+const linkList = ['About', 'Work', 'Projects', 'Notable', 'Web', 'Skills'];
 
 class NavBar extends StatelessWidget {
   final int selectedLinkIndex;
@@ -17,65 +20,78 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = AppLayout.isMobile(context);
+
     return AnimatedContainer(
       decoration: BoxDecoration(
         color: AppColors.background,
         boxShadow: isElevated ? AppShadows.appBar : [],
       ),
       duration: Duration(milliseconds: 250),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16.0,
-            horizontal: AppLayout.gutter,
-          ),
-          child: SizedBox(
-            width: AppLayout.maxContentWidth,
-            child: Row(
-              spacing: 20,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //* ===== Profile
-                _profile(),
-                //* ===== Links
-                _links(context),
-                //* ===== Contact
-                _contact(() => onClickContact()),
-              ],
-            ),
-          ),
+      child: ContentWrap(
+        child: Row(
+          spacing: 20,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //* ===== Profile
+            _profile(isMobile, () {
+              Scaffold.of(context).openDrawer();
+            }),
+            //* ===== Links
+            if (!isMobile) _links(context),
+            //* ===== Contact
+            _contact(() => onClickContact()),
+          ],
         ),
       ),
     );
   }
 
-  Widget _profile() {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: AppGradients.brand,
-            borderRadius: BorderRadius.circular(AppRadius.logo),
-          ),
-          child: SizedBox(
-            height: 30,
-            width: 30,
-            child: Center(
-              child: Text(
-                "VD",
-                style: GoogleFonts.spaceGrotesk(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.white,
+  Widget _profile(bool isMobile, void Function() onPressMenu) {
+    return Flexible(
+      child: Row(
+        children: [
+          if (isMobile)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                onPressed: () {
+                  onPressMenu();
+                },
+                icon: Icon(Icons.menu),
+              ),
+            ),
+
+          Container(
+            decoration: BoxDecoration(
+              gradient: AppGradients.brand,
+              borderRadius: BorderRadius.circular(AppRadius.logo),
+            ),
+            child: SizedBox(
+              height: 30,
+              width: 30,
+              child: Center(
+                child: Text(
+                  "VD",
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.white,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Text('Von Denuelle', style: AppText.logo),
-      ],
+          const SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              'Von Denuelle',
+              style: AppText.logo.copyWith(fontSize: isMobile ? 14 : 17),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -89,180 +105,36 @@ class NavBar extends StatelessWidget {
             spacing: 24,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 0
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 0 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(0);
-                },
-                child: Text("About"),
-              ),
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 1
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 1 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(1);
-                },
-                child: Text("Flutter"),
-              ),
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 2
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 2 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(2);
-                },
-                child: Text("Native Android"),
-              ),
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 3
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 3 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(3);
-                },
-                child: Text("Notable"),
-              ),
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 4
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 4 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(4);
-                },
-                child: Text("Web"),
-              ),
-              TextButton(
-                style:
-                    TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      shape: selectedLinkIndex == 5
-                          ? LinearBorder.bottom(
-                              side: BorderSide(
-                                color: AppColors.amber,
-                                width: 2,
-                              ),
-                            )
-                          : LinearBorder.none,
-                    ).copyWith(
-                      foregroundColor: WidgetStateProperty.resolveWith((
-                        states,
-                      ) {
-                        if (selectedLinkIndex == 5 ||
-                            states.contains(WidgetState.hovered)) {
-                          return AppColors.ink;
-                        }
-                        return AppColors.inkSoft;
-                      }),
-                    ),
-                onPressed: () {
-                  onSelectLink(5);
-                },
-                child: Text("Skills"),
-              ),
+              for (final (index, link) in linkList.indexed)
+                TextButton(
+                  style:
+                      TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
+                        padding: EdgeInsets.symmetric(vertical: 6),
+                        shape: selectedLinkIndex == index
+                            ? LinearBorder.bottom(
+                                side: BorderSide(
+                                  color: AppColors.amber,
+                                  width: 2,
+                                ),
+                              )
+                            : LinearBorder.none,
+                      ).copyWith(
+                        foregroundColor: WidgetStateProperty.resolveWith((
+                          states,
+                        ) {
+                          if (selectedLinkIndex == index ||
+                              states.contains(WidgetState.hovered)) {
+                            return AppColors.ink;
+                          }
+                          return AppColors.inkSoft;
+                        }),
+                      ),
+                  onPressed: () {
+                    onSelectLink(index);
+                  },
+                  child: Text(link),
+                ),
             ],
           ),
         ),

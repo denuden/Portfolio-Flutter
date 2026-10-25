@@ -52,6 +52,10 @@ class AppColors {
   static const selection = Color(0x59F2A93B); // amber at 35%: selected text
 
   static const white = Color(0xFFFFFFFF);
+
+  static const kotlinPurple = Color(0xFF7F52FF);
+  static const composeGreen = Color(0xFF3DDC84);
+  static const flutterBlue = Color(0xFF1F6FEB);
 }
 
 /// ===============================
@@ -60,12 +64,15 @@ class AppColors {
 class AppLayout {
   AppLayout._();
 
+  static bool isMobile(BuildContext context) =>
+      MediaQuery.sizeOf(context).width < mobileBreakpoint;
+
   static const maxContentWidth = 1080.0; // .wrap max-width
   static const gutter = 28.0; // .wrap horizontal padding
   static const mobileBreakpoint = 860.0; // @media (max-width: 860px)
 
   static const sectionPaddingY = 80.0; // section { padding: 80px 0 }
-  static const heroPaddingTop = 76.0;
+  static const heroPaddingTop = 52.0;
   static const heroPaddingBottom = 88.0;
   static const gridGap = 22.0; // gap between cards
 }
@@ -358,7 +365,7 @@ final ThemeData lightMode = ThemeData(
       backgroundColor: AppColors.ink,
       foregroundColor: AppColors.white,
       elevation: 0,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 13),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       shape: const StadiumBorder(),
       textStyle: GoogleFonts.inter(fontSize: 14.5, fontWeight: FontWeight.w600),
     ),

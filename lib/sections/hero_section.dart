@@ -1,43 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio/theme/theme.dart';
+import 'package:portfolio/widgets/hero_tech_pill.dart';
 import 'package:portfolio/widgets/skill_chip.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = AppLayout.isMobile(context);
+
+    final details = _heroDetails(context, isMobile);
+    final image = _widgetImage(context, isMobile);
+
+    if (isMobile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 48,
+        children: [image, details],
+      );
+    }
+
     return Row(
+      spacing: 48,
       children: [
-        //* first row
-        Expanded(flex: 11, child: _heroDetails(context)),
-        //* second row
+        Expanded(flex: 11, child: details),
+        Expanded(flex: 9, child: image),
       ],
     );
   }
 
-  Widget _heroDetails(BuildContext context) {
+  Widget _heroDetails(BuildContext context, bool isMobile) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Chip(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-          side: BorderSide.none,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(12),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.tealSoft,
+            borderRadius: BorderRadius.circular(16),
           ),
-          labelStyle: AppText.heroEyebrow,
-          backgroundColor: AppColors.tealSoft,
-          label: Text('AVAILABLE FOR ANDROID & FLUTTER ROLES'),
+          child: Flexible(
+            child: Text(
+              'AVAILABLE FOR ANDROID & FLUTTER ROLES',
+              style: AppText.heroEyebrow,
+            ),
+          ),
         ),
 
         const SizedBox(height: 20),
 
         Text.rich(
           TextSpan(
-            style: Theme.of(
-              context,
-            ).textTheme.displayMedium, // base style for everything
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+              fontSize: isMobile ? 34 : 44,
+            ), // base style for everything
             children: const [
               TextSpan(text: 'Mobile app developer.\n'),
               TextSpan(text: 'Native Android by trade,\n'),
@@ -61,8 +80,9 @@ class HeroSection extends StatelessWidget {
         ),
 
         const SizedBox(height: 30),
-        Row(
+        Wrap(
           spacing: 14,
+          runSpacing: 12,
           children: [
             FilledButton(onPressed: () {}, child: Text('View my work')),
 
@@ -84,7 +104,7 @@ class HeroSection extends StatelessWidget {
           ],
         ),
 
-        const SizedBox(width: 16),
+        const SizedBox(height: 16),
 
         Container(
           padding: const EdgeInsets.fromLTRB(10, 7, 14, 7),
@@ -94,34 +114,42 @@ class HeroSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           child: Row(
-            mainAxisSize:
-                MainAxisSize.min, // NEW: chip only as wide as its content
-            spacing: 8, // NEW: replaces the SizedBox
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
             children: [
               Container(
                 width: 9,
                 height: 9,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF1F6FEB), // NEW: add this to AppColors
+                  color: AppColors.flutterBlue,
                   shape: BoxShape.circle,
                 ),
               ),
-              Text(
-                'This site is made with Flutter',
-                style: AppText.tag.copyWith(color: AppColors.ink), // NEW
+              Flexible(
+                child: Text(
+                  'This site is made with Flutter',
+                  style: AppText.tag.copyWith(color: AppColors.ink), // NEW
+                ),
               ),
-              Container(
-                width: 1,
-                height: 14,
-                color: AppColors.border,
-              ), // NEW: simpler divider
+              Container(width: 1, height: 14, color: AppColors.border),
+
               TextButton(
-                // NEW: the link
                 onPressed: () {
-                  //   launchUrl(
-                  //   Uri.parse('https://github.com/denuden/YOUR_PORTFOLIO_REPO'),
-                  // )
+                  launchUrl(
+                    Uri.parse('https://github.com/denuden/Portfolio-Flutter'),
+                  );
                 },
+                style: ButtonStyle(
+                  textStyle: WidgetStateProperty.resolveWith((states) {
+                    final baseStyle = TextStyle(fontSize: 16.0);
+                    if (states.contains(WidgetState.hovered)) {
+                      return baseStyle.copyWith(
+                        decoration: TextDecoration.underline,
+                      );
+                    }
+                    return baseStyle;
+                  }),
+                ),
                 child: Text(
                   'View source ↗',
                   style: AppText.tag.copyWith(fontWeight: FontWeight.w600),
@@ -131,6 +159,64 @@ class HeroSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _widgetImage(BuildContext context, bool isMobile) {
+    return SizedBox(
+      height: 460,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final w = constraints.maxWidth;
+          final h = constraints.maxHeight;
+
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Align(
+                alignment: AlignmentGeometry.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(34),
+                    boxShadow: AppShadows.phone,
+                  ),
+                  child: SvgPicture.asset(
+                    width: 230,
+                    height: 460,
+                    'assets/images/Phone.svg',
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: h * 0.08,
+                left: -w * (isMobile ? 0.0 : 0.06),
+                child: TechPill(
+                  label: "Kotlin",
+                  dotColor: AppColors.kotlinPurple,
+                ),
+              ),
+
+              Positioned(
+                top: h * 0.38,
+                right: -w * (isMobile ? 0.02 : 0.10),
+                child: const TechPill(
+                  label: 'Flutter',
+                  dotColor: AppColors.flutterBlue,
+                ),
+              ),
+              Positioned(
+                bottom: h * 0.14,
+                left: -w * (isMobile ? 0.0 : 0.12),
+                child: const TechPill(
+                  label: 'Compose',
+                  dotColor: AppColors.composeGreen,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
