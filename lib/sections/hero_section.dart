@@ -42,11 +42,9 @@ class HeroSection extends StatelessWidget {
             color: AppColors.tealSoft,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Flexible(
-            child: Text(
-              'AVAILABLE FOR ANDROID & FLUTTER ROLES',
-              style: AppText.heroEyebrow,
-            ),
+          child: Text(
+            'AVAILABLE FOR ANDROID & FLUTTER ROLES',
+            style: AppText.heroEyebrow,
           ),
         ),
 

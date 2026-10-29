@@ -11,9 +11,12 @@ class ContentWrap extends StatelessWidget {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: AppLayout.maxContentWidth),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppLayout.gutter),
-          child: child,
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppLayout.gutter),
+            child: child,
+          ),
         ),
       ),
     );

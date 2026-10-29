@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/sections/hero_section.dart';
+import 'package:portfolio/sections/work_section.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
 import 'package:portfolio/widgets/nav_bar.dart';
@@ -73,6 +74,9 @@ class _HomePageState extends State<HomePage> {
                   child: const HeroSection(),
                 ),
               ),
+
+              //* Work Section
+              WorkSection(),
             ],
           ),
         ),
