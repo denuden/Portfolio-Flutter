@@ -147,7 +147,10 @@ class _WorkSectionState extends State<WorkSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("ZIAPLEX · 2023 — PRESENT", style: AppText.sectionEyebrow),
+            Text(
+              "JPS Group of Companies (Ziaplex, PMTI, DIGIPEP OPC) · 2023 — PRESENT",
+              style: AppText.sectionEyebrow,
+            ),
             const SizedBox(height: 10),
 
             Text(

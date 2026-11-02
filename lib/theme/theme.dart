@@ -215,6 +215,11 @@ class AppText {
     letterSpacing: 0.2,
     color: AppColors.ink,
   );
+
+  static final mediaMore = _mono(
+    13,
+    color: AppColors.white,
+  ).copyWith(fontWeight: FontWeight.w600);
 }
 
 /// ===============================

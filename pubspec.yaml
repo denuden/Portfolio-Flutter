@@ -66,6 +66,10 @@ flutter:
   assets:
     - assets/images/phone.svg
     - assets/images/lock.svg
+    - assets/placeholder/placeholder_screen_1.png
+    - assets/placeholder/placeholder_screen_2.png
+    - assets/placeholder/placeholder_screen_3.png
+    - assets/placeholder/placeholder_screen_4.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
