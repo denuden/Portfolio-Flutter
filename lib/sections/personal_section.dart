@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
 import 'package:portfolio/widgets/personal_projects_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PersonalSection extends StatelessWidget {
   const PersonalSection({super.key});
@@ -61,6 +62,8 @@ class PersonalSection extends StatelessWidget {
                         'placeholder/placeholder_screen_2.png',
                         'placeholder/placeholder_screen_3.png',
                       ],
+                      onClickViewCode: () {},
+                      onClickViewGallery: () {},
                     ),
                   ),
                   Expanded(
@@ -75,6 +78,8 @@ class PersonalSection extends StatelessWidget {
                         'placeholder/placeholder_screen_2.png',
                         'placeholder/placeholder_screen_3.png',
                       ],
+                      onClickViewCode: () {},
+                      onClickViewGallery: () {},
                     ),
                   ),
                   Expanded(
@@ -89,6 +94,8 @@ class PersonalSection extends StatelessWidget {
                         'placeholder/placeholder_screen_2.png',
                         'placeholder/placeholder_screen_3.png',
                       ],
+                      onClickViewCode: () {},
+                      onClickViewGallery: () {},
                     ),
                   ),
                 ],
@@ -109,6 +116,8 @@ class PersonalSection extends StatelessWidget {
                       'placeholder/placeholder_screen_2.png',
                       'placeholder/placeholder_screen_3.png',
                     ],
+                    onClickViewCode: () {},
+                    onClickViewGallery: () {},
                   ),
                   PersonalProjectsCard(
                     title: "DenuSpend",
@@ -121,6 +130,8 @@ class PersonalSection extends StatelessWidget {
                       'placeholder/placeholder_screen_2.png',
                       'placeholder/placeholder_screen_3.png',
                     ],
+                    onClickViewCode: () {},
+                    onClickViewGallery: () {},
                   ),
                   PersonalProjectsCard(
                     title: "DenuSpend",
@@ -133,9 +144,101 @@ class PersonalSection extends StatelessWidget {
                       'placeholder/placeholder_screen_2.png',
                       'placeholder/placeholder_screen_3.png',
                     ],
+                    onClickViewCode: () {},
+                    onClickViewGallery: () {},
                   ),
                 ],
               ),
+
+            //* template strip
+            const SizedBox(height: 22),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 22, horizontal: 26),
+              decoration: BoxDecoration(
+                gradient: AppGradients.webStrip,
+                border: Border.all(width: 1, color: AppColors.border),
+                borderRadius: BorderRadius.circular(AppRadius.card),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 22,
+                children: [
+                  //?BODY
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: AppColors.ink,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.layers,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 16),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'DenuBoilerplateCompose — my starter template',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.ink,
+                                  ),
+                            ),
+                            Text(
+                              'Package Structure, Hilt, Room Database, Retrofit, Pagination, Type-safe Navigation, WorkManager, DataStore, Dialogs, and other utilities/helpers, wired up and ready to build on',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: AppColors.inkSoft,
+                                    fontSize: 12.5,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      //? Button for web
+                      if (!isMobile)
+                        OutlinedButton(
+                          onPressed: () {
+                            launchUrl(
+                              Uri.parse(
+                                "https://github.com/denuden/DenuBoilerplateCompose",
+                              ),
+                            );
+                          },
+                          child: Text("View template →"),
+                        ),
+                    ],
+                  ),
+
+                  //? Button for mobile
+                  if (isMobile)
+                    OutlinedButton(
+                      onPressed: () {
+                        launchUrl(
+                          Uri.parse(
+                            "https://github.com/denuden/DenuBoilerplateCompose",
+                          ),
+                        );
+                      },
+                      child: Text("View template →"),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
