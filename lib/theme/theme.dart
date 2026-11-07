@@ -56,6 +56,16 @@ class AppColors {
   static const kotlinPurple = Color(0xFF7F52FF);
   static const composeGreen = Color(0xFF3DDC84);
   static const flutterBlue = Color(0xFF1F6FEB);
+
+  // AI panel (text and lines on the dark ink background)
+  static const aiText = Color(0xFFE6E9EE); // list text, chips
+  static const aiTextSoft = Color(0xFFB9C0CB); // description, step text
+  static const aiTextFaint = Color(0xFF8C96A5); // closing note
+  static const aiStepBg = Color(0x0FFFFFFF); // white at 6%
+  static const aiStepBorder = Color(0x1AFFFFFF); // white at 10%
+  static const aiChipBorder = Color(0x2EFFFFFF); // white at 18%
+  static const aiGlow = Color(0x47F2A93B); // amber at 28%
+  static const aiGlowEnd = Color(0x00F2A93B); // amber at 0%
 }
 
 /// ===============================
@@ -220,6 +230,8 @@ class AppText {
     13,
     color: AppColors.white,
   ).copyWith(fontWeight: FontWeight.w600);
+
+  static final mono = _mono(11);
 }
 
 /// ===============================

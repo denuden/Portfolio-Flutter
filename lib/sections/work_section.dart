@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfolio/theme/theme.dart';
+import 'package:portfolio/widgets/ai_text_block.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
 import 'package:portfolio/widgets/work_card.dart';
 import 'package:portfolio/widgets/work_list.dart';
@@ -118,6 +119,33 @@ const _workItems = [
     description:
         "Onboarded 2 interns, wrote team guides for POS printing and kiosk scanners, added shared helpers to our boilerplate, and rebuilt our mockup app in Compose and Flutter for R&D.",
     skills: ['DOCS', 'MENTORING'],
+  ),
+];
+
+const _aiSteps = [
+  (
+    number: "01",
+    title: "Spec",
+    text:
+        "I describe the task. Claude drafts a spec and a plan, and nothing starts until I approve them.",
+  ),
+  (
+    number: "02",
+    title: "Build",
+    text:
+        "Specialized agents write the code on a task branch, kept away from tests and database migrations.",
+  ),
+  (
+    number: "03",
+    title: "Review",
+    text:
+        "A QA agent checks the change against the spec and writes tests for it. It has to pass to move on.",
+  ),
+  (
+    number: "04",
+    title: "Ship",
+    text:
+        "I approve the push, an agent reviews the pull request, and a person merges it.",
   ),
 ];
 
@@ -240,6 +268,9 @@ class _WorkSectionState extends State<WorkSection> {
             const SizedBox(height: 38),
             _workHighlights(context),
 
+            //* WORK AI
+            const SizedBox(height: 26),
+            _workAI(context),
             //* WORK LIST
             const SizedBox(height: 26),
             _workList(context),
@@ -461,6 +492,265 @@ class _WorkSectionState extends State<WorkSection> {
           child: Text(_expanded ? "Hide" : "Show more work"),
         ),
       ],
+    );
+  }
+
+  Widget _workAI(BuildContext contetx) {
+    final columns = AppLayout.isMobile(context) ? 2 : 4;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: AppColors.ink,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //? Text Header
+                  Text(
+                    'How I work with AI · since 2026'.toUpperCase(),
+                    style: AppText.sectionEyebrow.copyWith(
+                      color: AppColors.amber,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 640),
+                    child: Text(
+                      'Shipping with Claude Code, with a person in the loop',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 640),
+                    child: Text(
+                      'Most of the work on this page was written by hand, years before AI joined my workflow. In 2026 our team adopted a spec-first Claude Code workflow, where agents do more of the typing and people still make the decisions. My fundamentals are what let me judge what it writes.',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        height: 1.6,
+                        color: AppColors.aiTextSoft,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  //? Text Blocks
+                  Column(
+                    spacing: 12,
+                    children: [
+                      for (var i = 0; i < _aiSteps.length; i += columns)
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            spacing: 12,
+                            children: [
+                              for (final step in _aiSteps.skip(i).take(columns))
+                                Expanded(
+                                  child: AiTextBlock(
+                                    number: step.number,
+                                    title: step.title,
+                                    description: step.text,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  //? Arrow with text
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('→', style: TextStyle(color: AppColors.amber)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          "Set up CLAUDE.md project guides and Claude skills for the KYC app and pharmacy POS repos, so Claude Code follows each app's architecture and conventions",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.aiText,
+                                height: 1.55,
+                                fontSize: 13.4,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('→', style: TextStyle(color: AppColors.amber)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          "Feature, UI and release work with Claude Code in Android Studio, with every change compiled and checked by me before it's done",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.aiText,
+                                height: 1.55,
+                                fontSize: 13.4,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('→', style: TextStyle(color: AppColors.amber)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          "Drafted the KYC app's field user guide, migration guide and release notes with Claude and Cowork",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.aiText,
+                                height: 1.55,
+                                fontSize: 13.4,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('→', style: TextStyle(color: AppColors.amber)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          "Built my own Claude skill that turns commits, Jira, Teams and release activity into daily and weekly work reports",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.aiText,
+                                height: 1.55,
+                                fontSize: 13.4,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('→', style: TextStyle(color: AppColors.amber)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          "Used Claude to audit repository history and document exactly what I built on each project",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.aiText,
+                                height: 1.55,
+                                fontSize: 13.4,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // ? Bottom Text
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      //* Chips
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          for (final chip in [
+                            'CLAUDE CODE',
+                            'COWORK',
+                            'CUSTOM SKILLS',
+                            'CLAUDE.MD',
+                            'SPEC-FIRST',
+                          ])
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.aiChipBorder,
+                                ),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                chip,
+                                style: AppText.mono.copyWith(
+                                  fontSize: 10.5,
+                                  color: AppColors.aiText,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+
+                      //* Note
+                      Text(
+                        "AI is a newer tool for me. The fundamentals came first.",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 12.5,
+                          fontStyle: FontStyle.italic,
+                          color: AppColors.aiTextFaint,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            //? Glow
+            Positioned(
+              top: -80,
+              right: -80,
+              child: Container(
+                width: 260,
+                height: 260,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    colors: [AppColors.aiGlow, AppColors.aiGlowEnd],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
