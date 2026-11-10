@@ -46,7 +46,7 @@ class _PersonalProjectsCardState extends State<PersonalProjectsCard> {
             onEnter: (_) => setState(() => _hovering = true),
             onExit: (_) => setState(() => _hovering = false),
             child: GestureDetector(
-              onTap: widget.onClickViewGallery,
+              onTap: () => widget.onClickViewGallery(),
               child: Container(
                 padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
@@ -82,6 +82,15 @@ class _PersonalProjectsCardState extends State<PersonalProjectsCard> {
                                       asset,
                                       fit: BoxFit.cover,
                                       alignment: Alignment.topCenter,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Center(
+                                                child: Icon(
+                                                  Icons.image_not_supported,
+                                                  color: AppColors.slate,
+                                                  size: 20,
+                                                ),
+                                              ),
                                     ),
 
                                     if (widget.numberOfMoreImages > 0 &&

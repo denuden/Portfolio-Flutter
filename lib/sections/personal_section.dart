@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/asset/info.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
+import 'package:portfolio/widgets/dialog/gallery_dialog.dart';
 import 'package:portfolio/widgets/personal_projects_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,109 +48,7 @@ class PersonalSection extends StatelessWidget {
             //*Cards
             const SizedBox(height: 42),
 
-            if (!isMobile)
-              Row(
-                spacing: 22,
-                children: [
-                  Expanded(
-                    child: PersonalProjectsCard(
-                      title: "DenuSpend",
-                      description:
-                          "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                      skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                      numberOfMoreImages: 3,
-                      imageAssets: [
-                        'placeholder/placeholder_screen_1.png',
-                        'placeholder/placeholder_screen_2.png',
-                        'placeholder/placeholder_screen_3.png',
-                      ],
-                      onClickViewCode: () {},
-                      onClickViewGallery: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: PersonalProjectsCard(
-                      title: "DenuSpend",
-                      description:
-                          "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                      skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                      numberOfMoreImages: 3,
-                      imageAssets: [
-                        'placeholder/placeholder_screen_1.png',
-                        'placeholder/placeholder_screen_2.png',
-                        'placeholder/placeholder_screen_3.png',
-                      ],
-                      onClickViewCode: () {},
-                      onClickViewGallery: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: PersonalProjectsCard(
-                      title: "DenuSpend",
-                      description:
-                          "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                      skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                      numberOfMoreImages: 0,
-                      imageAssets: [
-                        'placeholder/placeholder_screen_1.png',
-                        'placeholder/placeholder_screen_2.png',
-                        'placeholder/placeholder_screen_3.png',
-                      ],
-                      onClickViewCode: () {},
-                      onClickViewGallery: () {},
-                    ),
-                  ),
-                ],
-              ),
-
-            if (isMobile)
-              Column(
-                spacing: 22,
-                children: [
-                  PersonalProjectsCard(
-                    title: "DenuSpend",
-                    description:
-                        "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                    skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                    numberOfMoreImages: 3,
-                    imageAssets: [
-                      'placeholder/placeholder_screen_1.png',
-                      'placeholder/placeholder_screen_2.png',
-                      'placeholder/placeholder_screen_3.png',
-                    ],
-                    onClickViewCode: () {},
-                    onClickViewGallery: () {},
-                  ),
-                  PersonalProjectsCard(
-                    title: "DenuSpend",
-                    description:
-                        "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                    skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                    numberOfMoreImages: 3,
-                    imageAssets: [
-                      'placeholder/placeholder_screen_1.png',
-                      'placeholder/placeholder_screen_2.png',
-                      'placeholder/placeholder_screen_3.png',
-                    ],
-                    onClickViewCode: () {},
-                    onClickViewGallery: () {},
-                  ),
-                  PersonalProjectsCard(
-                    title: "DenuSpend",
-                    description:
-                        "Track income and expenses, set a budget, and see where your money goes with charts for the last 7, 15 or 30 days. Synced in real time with Firebase.",
-                    skills: ['COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
-                    numberOfMoreImages: 3,
-                    imageAssets: [
-                      'placeholder/placeholder_screen_1.png',
-                      'placeholder/placeholder_screen_2.png',
-                      'placeholder/placeholder_screen_3.png',
-                    ],
-                    onClickViewCode: () {},
-                    onClickViewGallery: () {},
-                  ),
-                ],
-              ),
+            _projectCards(context),
 
             //* template strip
             const SizedBox(height: 22),
@@ -241,6 +141,42 @@ class PersonalSection extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _projectCards(BuildContext context) {
+    final isMobile = AppLayout.isMobile(context);
+
+    final cards = [
+      for (final project in personalProjects)
+        PersonalProjectsCard(
+          title: project.title,
+          numberOfMoreImages: project.images.length - 3,
+          description: project.summary,
+          skills: project.cardSkills,
+          imageAssets: project.images.take(3).toList(),
+          onClickViewGallery: () => showGalleryDialog(
+            context,
+            title: project.title,
+            description: project.details,
+            skills: project.gallerySkills,
+            imageAssets: project.images,
+            codeUrl: project.codeUrl,
+          ),
+          onClickViewCode: () => launchUrl(Uri.parse(project.codeUrl)),
+        ),
+    ];
+
+    if (isMobile) {
+      return Column(spacing: 22, children: cards);
+    }
+
+    return IntrinsicHeight(
+      child: Row(
+        spacing: 22,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [for (final card in cards) Expanded(child: card)],
       ),
     );
   }
