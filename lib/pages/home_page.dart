@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/sections/capstone_section.dart';
 import 'package:portfolio/sections/hero_section.dart';
 import 'package:portfolio/sections/personal_section.dart';
 import 'package:portfolio/sections/work_section.dart';
@@ -81,6 +82,9 @@ class _HomePageState extends State<HomePage> {
 
               //* Personal Projects Section
               PersonalSection(),
+
+              //*Capstone Project Setion
+              CapstoneSection(),
             ],
           ),
         ),

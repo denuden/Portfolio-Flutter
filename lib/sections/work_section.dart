@@ -261,7 +261,7 @@ class _WorkSectionState extends State<WorkSection> {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 640),
                     child: Text(
-                      'Most of the work on this page was written by hand, years before AI joined my workflow. In 2026 our team adopted a spec-first Claude Code workflow, where agents do more of the typing and people still make the decisions. My fundamentals are what let me judge what it writes.',
+                      'In 2026 our team added a spec-first Claude Code workflow to how we build. Agents do more of the typing, people make the decisions, and every step has a check before the next one starts.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         height: 1.6,
                         color: AppColors.aiTextSoft,
@@ -443,16 +443,6 @@ class _WorkSectionState extends State<WorkSection> {
                               ),
                             ),
                         ],
-                      ),
-
-                      //* Note
-                      Text(
-                        "AI is a newer tool for me. The fundamentals came first.",
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 12.5,
-                          fontStyle: FontStyle.italic,
-                          color: AppColors.aiTextFaint,
-                        ),
                       ),
                     ],
                   ),

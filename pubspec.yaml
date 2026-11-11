@@ -70,6 +70,10 @@ flutter:
     - assets/placeholder/placeholder_screen_2.png
     - assets/placeholder/placeholder_screen_3.png
     - assets/placeholder/placeholder_screen_4.png
+    - assets/placeholder/placeholder_web_1.png
+    - assets/placeholder/placeholder_web_2.png
+    - assets/placeholder/placeholder_web_3.png
+    - assets/placeholder/placeholder_web_4.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
