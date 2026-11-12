@@ -11,6 +11,7 @@ void showGalleryDialog(
   required List<String> skills,
   required List<String> imageAssets,
   String? codeUrl,
+  bool isWebAsset = false,
 }) {
   showDialog(
     context: context,
@@ -22,6 +23,7 @@ void showGalleryDialog(
         skills: skills,
         imageAssets: imageAssets,
         codeUrl: codeUrl,
+        isWebAsset: isWebAsset,
       ),
     ),
   );
@@ -33,6 +35,7 @@ class GalleryDialog extends StatefulWidget {
   final List<String> skills;
   final List<String> imageAssets;
   final String? codeUrl;
+  final bool isWebAsset;
   const GalleryDialog({
     super.key,
     required this.title,
@@ -40,6 +43,7 @@ class GalleryDialog extends StatefulWidget {
     required this.skills,
     required this.imageAssets,
     this.codeUrl,
+    required this.isWebAsset,
   });
 
   @override
@@ -79,13 +83,18 @@ class _GalleryDialogState extends State<GalleryDialog> {
           borderRadius: BorderRadius.circular(20),
         ),
 
-        child: isMobile
+        child: isMobile || widget.isWebAsset
             ? SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _stage(context, isMobile, screenHeight),
-                    _details(context, isMobile, screenHeight),
+                    _stage(context, isMobile, widget.isWebAsset, screenHeight),
+                    _details(
+                      context,
+                      isMobile,
+                      widget.isWebAsset,
+                      screenHeight,
+                    ),
                   ],
                 ),
               )
@@ -93,11 +102,16 @@ class _GalleryDialogState extends State<GalleryDialog> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   //* ========================= LEFT SIDE
-                  _stage(context, isMobile, screenHeight),
+                  _stage(context, isMobile, widget.isWebAsset, screenHeight),
                   //* ========================= RIGHT SIDE
                   Expanded(
                     child: SingleChildScrollView(
-                      child: _details(context, isMobile, screenHeight),
+                      child: _details(
+                        context,
+                        isMobile,
+                        widget.isWebAsset,
+                        screenHeight,
+                      ),
                     ),
                   ),
                 ],
@@ -106,12 +120,19 @@ class _GalleryDialogState extends State<GalleryDialog> {
     );
   }
 
-  Widget _stage(BuildContext context, bool isMobile, double screenHeight) {
+  Widget _stage(
+    BuildContext context,
+    bool isMobile,
+    bool isWebAsset,
+    double screenHeight,
+  ) {
     return Stack(
       children: [
         SizedBox(
-          width: isMobile ? double.infinity : 400,
-          height: isMobile ? screenHeight * 0.62 : screenHeight * 0.88,
+          width: isMobile || isWebAsset ? double.infinity : 400,
+          height: isMobile || isWebAsset
+              ? screenHeight * 0.62
+              : screenHeight * 0.88,
           child: Container(
             padding: EdgeInsets.only(top: 28, bottom: 48),
             decoration: BoxDecoration(gradient: AppGradients.mediaPlaceholder),
@@ -122,6 +143,7 @@ class _GalleryDialogState extends State<GalleryDialog> {
                   onPageChanged: (index) {
                     setState(() {
                       _currentPage = index;
+                      _selectedThumbnailIndex = index;
                     });
                   },
                   controller: _pageController,
@@ -132,20 +154,23 @@ class _GalleryDialogState extends State<GalleryDialog> {
                     return Stack(
                       children: [
                         Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadiusGeometry.circular(18),
-                            child: Image.asset(
-                              asset,
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Center(
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      color: AppColors.slate,
-                                      size: 20,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadiusGeometry.circular(18),
+                              child: Image.asset(
+                                asset,
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Center(
+                                      child: Icon(
+                                        Icons.image_not_supported,
+                                        color: AppColors.slate,
+                                        size: 20,
+                                      ),
                                     ),
-                                  ),
+                              ),
                             ),
                           ),
                         ),
@@ -160,8 +185,13 @@ class _GalleryDialogState extends State<GalleryDialog> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
+                        iconSize: 15,
                         style: IconButton.styleFrom(
                           backgroundColor: AppColors.surface,
+                          fixedSize: const Size(30, 30),
+                          minimumSize: const Size(30, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: EdgeInsets.zero,
                         ),
                         onPressed: () {
                           if (_currentPage > 0) {
@@ -177,8 +207,13 @@ class _GalleryDialogState extends State<GalleryDialog> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(
+                        iconSize: 15,
                         style: IconButton.styleFrom(
                           backgroundColor: AppColors.surface,
+                          fixedSize: const Size(30, 30),
+                          minimumSize: const Size(30, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: EdgeInsets.zero,
                         ),
                         onPressed: () {
                           if (_currentPage < widget.imageAssets.length - 1) {
@@ -196,12 +231,35 @@ class _GalleryDialogState extends State<GalleryDialog> {
         ),
 
         Positioned(
-          bottom: 12,
+          top: 8,
+          right: 8,
+          child: Padding(
+            padding: EdgeInsetsGeometry.all(8),
+
+            child: IconButton.filled(
+              iconSize: 15,
+              style: IconButton.styleFrom(
+                backgroundColor: AppColors.surface,
+                fixedSize: const Size(30, 30),
+                minimumSize: const Size(30, 30),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
+              ),
+              padding: EdgeInsets.all(0),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.close),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 8,
           left: 0,
           right: 0,
           child: Center(
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
               decoration: BoxDecoration(
                 color: AppColors.darkPill,
                 borderRadius: BorderRadius.circular(100),
@@ -217,9 +275,14 @@ class _GalleryDialogState extends State<GalleryDialog> {
     );
   }
 
-  Widget _details(BuildContext context, bool isMobile, double screenHeight) {
+  Widget _details(
+    BuildContext context,
+    bool isMobile,
+    bool isWebAsset,
+    double screenHeight,
+  ) {
     return Padding(
-      padding: isMobile
+      padding: isMobile || isWebAsset
           ? EdgeInsetsGeometry.only(top: 22, left: 22, right: 22, bottom: 16)
           : EdgeInsetsGeometry.only(top: 56, bottom: 20, right: 28, left: 28),
       child: Column(
@@ -252,8 +315,8 @@ class _GalleryDialogState extends State<GalleryDialog> {
             children: [
               for (final (index, asset) in widget.imageAssets.indexed)
                 SizedBox(
-                  width: 54,
-                  height: 120,
+                  width: isWebAsset ? 120 : 54,
+                  height: isWebAsset ? 60 : 120,
                   child: Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
@@ -266,7 +329,7 @@ class _GalleryDialogState extends State<GalleryDialog> {
                         color:
                             _selectedThumbnailIndex ==
                                 index // CHANGED
-                            ? AppColors.amberDeep
+                            ? AppColors.amber
                             : Colors.transparent,
                         width: 2,
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
+import 'package:portfolio/widgets/dialog/gallery_dialog.dart';
 import 'package:portfolio/widgets/work_pill.dart';
 
 class CapstoneSection extends StatefulWidget {
@@ -13,6 +14,32 @@ class CapstoneSection extends StatefulWidget {
 
 class _CapstoneSectionState extends State<CapstoneSection> {
   bool _hovering = false;
+
+  void showGallery() {
+    showGalleryDialog(
+      context,
+      title: 'SCHEDUCATOR',
+      description:
+          "My capstone project: a web-based schedule designer built for New Cabalan National High School, presented as research at IRCITE 2023, the International Research Conference on Information Technology Education.",
+      skills: [
+        'WEB APP',
+        'ANGULAR',
+        'IONIC',
+        'LARAVEL API',
+        'MYSQL',
+        'TAILWIND',
+        'CAPSTONE RESEARCH',
+        'IRCITE 2023',
+      ],
+      imageAssets: [
+        'placeholder/placeholder_web_1.png',
+        'placeholder/placeholder_web_2.png',
+        'placeholder/placeholder_web_3.png',
+        'placeholder/placeholder_web_4.png',
+      ],
+      isWebAsset: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +99,7 @@ class _CapstoneSectionState extends State<CapstoneSection> {
       onExit: (_) => setState(() => _hovering = false),
       child: GestureDetector(
         onTap: () {
-          //TODO
+          showGallery();
         },
         child: Container(
           padding: EdgeInsets.all(14),
@@ -317,7 +344,7 @@ class _CapstoneSectionState extends State<CapstoneSection> {
                   }),
                 ),
             onPressed: () {
-              //TODO
+              showGallery();
             },
             child: Text('View gallery'),
           ),
