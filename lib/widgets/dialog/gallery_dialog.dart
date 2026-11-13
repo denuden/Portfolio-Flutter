@@ -65,6 +65,12 @@ class _GalleryDialogState extends State<GalleryDialog> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isMobile = AppLayout.isMobile(context);
     final screenHeight = MediaQuery.of(context).size.height;
@@ -84,36 +90,80 @@ class _GalleryDialogState extends State<GalleryDialog> {
         ),
 
         child: isMobile || widget.isWebAsset
-            ? SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _stage(context, isMobile, widget.isWebAsset, screenHeight),
-                    _details(
-                      context,
-                      isMobile,
-                      widget.isWebAsset,
-                      screenHeight,
-                    ),
-                  ],
-                ),
-              )
-            : Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            ? Stack(
                 children: [
-                  //* ========================= LEFT SIDE
-                  _stage(context, isMobile, widget.isWebAsset, screenHeight),
-                  //* ========================= RIGHT SIDE
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: _details(
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _stage(
+                          context,
+                          isMobile,
+                          widget.isWebAsset,
+                          screenHeight,
+                        ),
+                        _details(
+                          context,
+                          isMobile,
+                          widget.isWebAsset,
+                          screenHeight,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Stack(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      //* ========================= LEFT SIDE
+                      _stage(
                         context,
                         isMobile,
                         widget.isWebAsset,
                         screenHeight,
                       ),
-                    ),
+                      //* ========================= RIGHT SIDE
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: _details(
+                            context,
+                            isMobile,
+                            widget.isWebAsset,
+                            screenHeight,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+
+                  !isMobile
+                      ? Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Padding(
+                            padding: EdgeInsetsGeometry.all(8),
+
+                            child: IconButton.filled(
+                              iconSize: 15,
+                              style: IconButton.styleFrom(
+                                backgroundColor: AppColors.surface,
+                                fixedSize: const Size(30, 30),
+                                minimumSize: const Size(30, 30),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: EdgeInsets.zero,
+                              ),
+                              padding: EdgeInsets.all(0),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: Icon(Icons.close),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
       ),
@@ -230,29 +280,31 @@ class _GalleryDialogState extends State<GalleryDialog> {
           ),
         ),
 
-        Positioned(
-          top: 8,
-          right: 8,
-          child: Padding(
-            padding: EdgeInsetsGeometry.all(8),
+        isMobile || isWebAsset
+            ? Positioned(
+                top: 8,
+                right: 8,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(8),
 
-            child: IconButton.filled(
-              iconSize: 15,
-              style: IconButton.styleFrom(
-                backgroundColor: AppColors.surface,
-                fixedSize: const Size(30, 30),
-                minimumSize: const Size(30, 30),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.zero,
-              ),
-              padding: EdgeInsets.all(0),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close),
-            ),
-          ),
-        ),
+                  child: IconButton.filled(
+                    iconSize: 15,
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.surface,
+                      fixedSize: const Size(30, 30),
+                      minimumSize: const Size(30, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: EdgeInsets.zero,
+                    ),
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.close),
+                  ),
+                ),
+              )
+            : const SizedBox(),
         Positioned(
           bottom: 8,
           left: 0,
@@ -305,7 +357,12 @@ class _GalleryDialogState extends State<GalleryDialog> {
             ],
           ),
           const SizedBox(height: 20),
-          TextButton(onPressed: () {}, child: Text('Code')),
+          TextButton(
+            onPressed: () {
+              //TODO
+            },
+            child: Text('Code'),
+          ),
 
           const SizedBox(height: 20),
 

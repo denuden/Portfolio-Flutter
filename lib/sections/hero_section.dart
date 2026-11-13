@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/hero_tech_pill.dart';
-import 'package:portfolio/widgets/skill_chip.dart';
+import 'package:portfolio/widgets/hero_skill_chip.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {
@@ -93,12 +93,12 @@ class HeroSection extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            SkillChip(text: 'KOTLIN'),
-            SkillChip(text: 'JETPACK COMPOSE'),
-            SkillChip(text: 'XML'),
-            SkillChip(text: 'FLUTTER'),
-            SkillChip(text: 'DART'),
-            SkillChip(text: 'GIT'),
+            HeroSkillChip(text: 'KOTLIN'),
+            HeroSkillChip(text: 'JETPACK COMPOSE'),
+            HeroSkillChip(text: 'XML'),
+            HeroSkillChip(text: 'FLUTTER'),
+            HeroSkillChip(text: 'DART'),
+            HeroSkillChip(text: 'GIT'),
           ],
         ),
 

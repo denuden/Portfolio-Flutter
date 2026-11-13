@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/sections/capstone_section.dart';
 import 'package:portfolio/sections/hero_section.dart';
 import 'package:portfolio/sections/personal_section.dart';
+import 'package:portfolio/sections/skills_section.dart';
 import 'package:portfolio/sections/web_section.dart';
 import 'package:portfolio/sections/work_section.dart';
 import 'package:portfolio/theme/theme.dart';
@@ -89,6 +90,9 @@ class _HomePageState extends State<HomePage> {
 
               //* Web site Freelance
               WebSection(),
+
+              //* Skills Section
+              SkillsSection(),
             ],
           ),
         ),
