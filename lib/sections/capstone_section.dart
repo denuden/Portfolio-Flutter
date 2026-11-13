@@ -51,7 +51,7 @@ class _CapstoneSectionState extends State<CapstoneSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
 
             Text('FROM COLLEGE', style: AppText.sectionEyebrow),
             const SizedBox(height: 12),

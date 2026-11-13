@@ -9,7 +9,7 @@ class SkillsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: AppLayout.sectionPaddingY),
+      padding: EdgeInsets.symmetric(vertical: 24),
       child: ContentWrap(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
