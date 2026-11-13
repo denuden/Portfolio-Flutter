@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/content_wrap.dart';
 import 'package:portfolio/widgets/dialog/gallery_dialog.dart';
@@ -63,7 +62,7 @@ class _CapstoneSectionState extends State<CapstoneSection> {
             ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
               child: Text(
-                'My final-year project at Gordon College, wehere I finished BS Information and Technology in 2023.',
+                'My final-year project at Gordon College, where I finished BS Information Technology in 2023.',
               ),
             ),
 
@@ -103,13 +102,7 @@ class _CapstoneSectionState extends State<CapstoneSection> {
         },
         child: Container(
           padding: EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: AppColors.border, width: 1),
-            ),
-
-            gradient: AppGradients.mediaPlaceholder,
-          ),
+          decoration: BoxDecoration(gradient: AppGradients.mediaPlaceholder),
 
           child: Stack(
             clipBehavior: Clip.none,
@@ -147,8 +140,8 @@ class _CapstoneSectionState extends State<CapstoneSection> {
 
               //* hovered button
               Positioned(
-                right: -6, // 8 from the strip's edge (14 padding - 6)
                 bottom: -6,
+                right: 0,
                 child: IgnorePointer(
                   child: AnimatedOpacity(
                     opacity: _hovering ? 1 : 0,
@@ -176,10 +169,10 @@ class _CapstoneSectionState extends State<CapstoneSection> {
 
               //* ==== num screenshos
               Positioned(
-                bottom: 10,
-                left: 10,
+                bottom: -6,
+                left: 0,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 9),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: AppColors.darkPill,
@@ -325,24 +318,6 @@ class _CapstoneSectionState extends State<CapstoneSection> {
 
           const SizedBox(height: 1),
           TextButton(
-            style:
-                TextButton.styleFrom(
-                  foregroundColor: AppColors.teal,
-                  overlayColor: Colors.transparent,
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ).copyWith(
-                  textStyle: WidgetStateProperty.resolveWith((states) {
-                    final base = GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    );
-                    return states.contains(WidgetState.hovered)
-                        ? base.copyWith(decoration: TextDecoration.underline)
-                        : base;
-                  }),
-                ),
             onPressed: () {
               showGallery();
             },

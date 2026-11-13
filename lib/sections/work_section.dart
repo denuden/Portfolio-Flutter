@@ -220,7 +220,7 @@ class _WorkSectionState extends State<WorkSection> {
     );
   }
 
-  Widget _workAI(BuildContext contetx) {
+  Widget _workAI(BuildContext context) {
     final columns = AppLayout.isMobile(context) ? 2 : 4;
 
     return SizedBox(
@@ -233,6 +233,20 @@ class _WorkSectionState extends State<WorkSection> {
         ),
         child: Stack(
           children: [
+            //? Glow
+            Positioned(
+              top: -80,
+              right: -80,
+              child: Container(
+                width: 260,
+                height: 260,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    colors: [AppColors.aiGlow, AppColors.aiGlowEnd],
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -447,20 +461,6 @@ class _WorkSectionState extends State<WorkSection> {
                     ],
                   ),
                 ],
-              ),
-            ),
-            //? Glow
-            Positioned(
-              top: -80,
-              right: -80,
-              child: Container(
-                width: 260,
-                height: 260,
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [AppColors.aiGlow, AppColors.aiGlowEnd],
-                  ),
-                ),
               ),
             ),
           ],
