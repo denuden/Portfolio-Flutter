@@ -40,7 +40,7 @@ class PersonalSection extends StatelessWidget {
             ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
               child: Text(
-                'Public and open source. Where I try the patterns I want to bring to work, in Compose and in Flutter.',
+                'Public and open source. Where I try the patterns I want to bring to work, in Compose and in Flutter, and since 2026, where I practice my spec-first AI workflow.',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -155,7 +155,11 @@ class PersonalSection extends StatelessWidget {
           numberOfMoreImages: project.images.length - 3,
           description: project.summary,
           skills: project.cardSkills,
-          imageAssets: project.images.take(3).toList(),
+          // The card preview only shows pictures; videos play in the gallery.
+          imageAssets: project.images
+              .where((asset) => !isVideoAsset(asset))
+              .take(3)
+              .toList(),
           onClickViewGallery: () => showGalleryDialog(
             context,
             title: project.title,
