@@ -6,6 +6,9 @@ import 'package:portfolio/widgets/work_pill.dart';
 class PersonalProjectsCard extends StatefulWidget {
   final List<String> imageAssets;
   final int numberOfMoreImages;
+
+  /// Videos are never in the preview row, so they are counted separately.
+  final int numberOfMoreVideos;
   final String title;
   final List<String> skills;
   final String description;
@@ -15,6 +18,7 @@ class PersonalProjectsCard extends StatefulWidget {
     super.key,
     required this.imageAssets,
     required this.numberOfMoreImages,
+    this.numberOfMoreVideos = 0,
     required this.title,
     required this.skills,
     required this.description,
@@ -28,6 +32,19 @@ class PersonalProjectsCard extends StatefulWidget {
 
 class _PersonalProjectsCardState extends State<PersonalProjectsCard> {
   bool _hovering = false;
+
+  /// Text on the last preview image, e.g. "+9 more", or "+8 screens" and
+  /// "+1 video" on two lines when the gallery also has a video. Null when
+  /// nothing is hidden.
+  String? get _moreLabel {
+    final images = widget.numberOfMoreImages;
+    final videos = widget.numberOfMoreVideos;
+    if (videos <= 0) return images > 0 ? '+$images more' : null;
+    return [
+      if (images > 0) '+$images ${images == 1 ? 'screen' : 'screens'}',
+      '+$videos ${videos == 1 ? 'video' : 'videos'}',
+    ].join('\n');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +110,7 @@ class _PersonalProjectsCardState extends State<PersonalProjectsCard> {
                                               ),
                                     ),
 
-                                    if (widget.numberOfMoreImages > 0 &&
-                                        index == 2)
+                                    if (_moreLabel != null && index == 2)
                                       Positioned.fill(
                                         child: Container(
                                           decoration: const BoxDecoration(
@@ -102,13 +118,13 @@ class _PersonalProjectsCardState extends State<PersonalProjectsCard> {
                                           ),
                                         ),
                                       ),
-                                    if (widget.numberOfMoreImages > 0 &&
-                                        index == 2)
+                                    if (_moreLabel != null && index == 2)
                                       Positioned.fill(
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
-                                            '+${widget.numberOfMoreImages} more',
+                                            _moreLabel!,
+                                            textAlign: TextAlign.center,
                                             style: AppText.mediaMore,
                                           ),
                                         ),

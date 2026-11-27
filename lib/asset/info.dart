@@ -1,3 +1,9 @@
+/// Still image shown for a gallery video: as its thumbnail, and in the player
+/// while the video loads. Key is the video asset path.
+const videoPosters = {
+  'personal/denuspend/demo.mp4': 'personal/denuspend/home.png',
+};
+
 const personalProjects = [
   (
     title: "DenuSpend",
@@ -8,7 +14,6 @@ const personalProjects = [
     cardSkills: ['COMPOSE', 'HILT', 'FIRESTORE'],
     gallerySkills: ['KOTLIN', 'COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
     images: [
-      'personal/denuspend/demo.mp4',
       'personal/denuspend/home.png',
       'personal/denuspend/add-dashboard.png',
       'personal/denuspend/add-expense.png',
@@ -20,6 +25,9 @@ const personalProjects = [
       'personal/denuspend/budget.png',
       'personal/denuspend/budget-insights.png',
       'personal/denuspend/budget-went-wrong.png',
+      // Video goes last so the gallery opens on a screenshot and the video
+      // only downloads when someone reaches it.
+      'personal/denuspend/demo.mp4',
     ],
     codeUrl: 'https://github.com/denuden/DenuSpend',
   ),

@@ -152,10 +152,12 @@ class PersonalSection extends StatelessWidget {
       for (final project in personalProjects)
         PersonalProjectsCard(
           title: project.title,
-          numberOfMoreImages: project.images.length - 3,
+          // The card preview only shows pictures; videos play in the gallery.
+          numberOfMoreImages:
+              project.images.where((asset) => !isVideoAsset(asset)).length - 3,
+          numberOfMoreVideos: project.images.where(isVideoAsset).length,
           description: project.summary,
           skills: project.cardSkills,
-          // The card preview only shows pictures; videos play in the gallery.
           imageAssets: project.images
               .where((asset) => !isVideoAsset(asset))
               .take(3)
