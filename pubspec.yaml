@@ -40,6 +40,7 @@ dependencies:
   url_launcher: ^6.3.3
   google_fonts: ^8.2.1
   flutter_svg: ^2.3.0
+  video_player: ^2.14.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,18 @@ flutter:
     - assets/placeholder/placeholder_web_2.png
     - assets/placeholder/placeholder_web_3.png
     - assets/placeholder/placeholder_web_4.png
+    - assets/personal/denuspend/home.png
+    - assets/personal/denuspend/add-dashboard.png
+    - assets/personal/denuspend/add-expense.png
+    - assets/personal/denuspend/add-allowance.png
+    - assets/personal/denuspend/wallet.png
+    - assets/personal/denuspend/card-details.png
+    - assets/personal/denuspend/card-recurring.png
+    - assets/personal/denuspend/card-statement.png
+    - assets/personal/denuspend/budget.png
+    - assets/personal/denuspend/budget-insights.png
+    - assets/personal/denuspend/budget-went-wrong.png
+    - assets/personal/denuspend/demo.mp4
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

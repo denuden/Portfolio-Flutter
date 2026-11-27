@@ -8,31 +8,24 @@ const personalProjects = [
     cardSkills: ['COMPOSE', 'HILT', 'FIRESTORE'],
     gallerySkills: ['KOTLIN', 'COMPOSE', 'HILT', 'FIREBASE AUTH', 'FIRESTORE'],
     images: [
-      'placeholder/placeholder_screen_1.png',
-      'placeholder/placeholder_screen_2.png',
-      'placeholder/placeholder_screen_3.png',
-      'placeholder/placeholder_screen_4.png',
+      'personal/denuspend/demo.mp4',
+      'personal/denuspend/home.png',
+      'personal/denuspend/add-dashboard.png',
+      'personal/denuspend/add-expense.png',
+      'personal/denuspend/add-allowance.png',
+      'personal/denuspend/wallet.png',
+      'personal/denuspend/card-details.png',
+      'personal/denuspend/card-recurring.png',
+      'personal/denuspend/card-statement.png',
+      'personal/denuspend/budget.png',
+      'personal/denuspend/budget-insights.png',
+      'personal/denuspend/budget-went-wrong.png',
     ],
     codeUrl: 'https://github.com/denuden/DenuSpend',
   ),
+
   (
-    title: "DenuAnime",
-    summary:
-        "Browse, search and filter anime and characters from the Jikan API. MVVM with StateFlow and type-safe navigation.",
-    details:
-        "An anime collection app in Jetpack Compose, powered by the Jikan API. Browse trending and popular anime, search and filter titles and characters, and open detailed pages for each. Built with MVVM, Hilt for dependency injection, Retrofit, Coil, Kotlin Coroutines with StateFlow, and type-safe Compose navigation.",
-    cardSkills: ['COMPOSE', 'HILT', 'RETROFIT'],
-    gallerySkills: ['KOTLIN', 'COMPOSE', 'HILT', 'RETROFIT', 'COIL'],
-    images: [
-      'placeholder/placeholder_screen_2.png',
-      'placeholder/placeholder_screen_3.png',
-      'placeholder/placeholder_screen_4.png',
-      'placeholder/placeholder_screen_1.png',
-    ],
-    codeUrl: 'https://github.com/denuden/DenuAnime',
-  ),
-  (
-    title: "DenuAnime for Flutter",
+    title: "DenuAnime (Flutter)",
     summary:
         "My anime app rebuilt in Flutter with Bloc and Dio, plus Firebase email sign-in, skeleton loading and pull to refresh.",
     details:

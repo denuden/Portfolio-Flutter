@@ -3,6 +3,10 @@ import 'dart:ui';
 
 import 'package:portfolio/theme/theme.dart';
 import 'package:portfolio/widgets/work_pill.dart';
+import 'package:video_player/video_player.dart';
+
+/// Gallery items are plain asset paths; a video is told apart by its extension.
+bool isVideoAsset(String asset) => asset.toLowerCase().endsWith('.mp4');
 
 void showGalleryDialog(
   BuildContext context, {
@@ -208,19 +212,25 @@ class _GalleryDialogState extends State<GalleryDialog> {
                             padding: const EdgeInsets.all(4.0),
                             child: ClipRRect(
                               borderRadius: BorderRadiusGeometry.circular(18),
-                              child: Image.asset(
-                                asset,
-                                fit: BoxFit.cover,
-                                alignment: Alignment.topCenter,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Center(
-                                      child: Icon(
-                                        Icons.image_not_supported,
-                                        color: AppColors.slate,
-                                        size: 20,
-                                      ),
+                              child: isVideoAsset(asset)
+                                  ? GalleryVideo(
+                                      asset: asset,
+                                      isActive: index == _currentPage,
+                                    )
+                                  : Image.asset(
+                                      asset,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.topCenter,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Center(
+                                                child: Icon(
+                                                  Icons.image_not_supported,
+                                                  color: AppColors.slate,
+                                                  size: 20,
+                                                ),
+                                              ),
                                     ),
-                              ),
                             ),
                           ),
                         ),
@@ -398,19 +408,29 @@ class _GalleryDialogState extends State<GalleryDialog> {
                           _animateToPage(index);
                         });
                       },
-                      child: Image.asset(
-                        asset,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Center(
-                              child: Icon(
-                                Icons.image_not_supported,
-                                color: AppColors.slate,
-                                size: 20,
+                      child: isVideoAsset(asset)
+                          ? Container(
+                              color: AppColors.ink,
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.play_arrow_rounded,
+                                color: Colors.white,
+                                size: 24,
                               ),
+                            )
+                          : Image.asset(
+                              asset,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Center(
+                                    child: Icon(
+                                      Icons.image_not_supported,
+                                      color: AppColors.slate,
+                                      size: 20,
+                                    ),
+                                  ),
                             ),
-                      ),
                     ),
                   ),
                 ),
@@ -418,6 +438,85 @@ class _GalleryDialogState extends State<GalleryDialog> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// One video page in the gallery. It owns its own player: plays muted and
+/// looping while its page is showing, pauses when swiped away, and frees the
+/// player when the PageView drops the page.
+class GalleryVideo extends StatefulWidget {
+  final String asset;
+  final bool isActive;
+  const GalleryVideo({super.key, required this.asset, required this.isActive});
+
+  @override
+  State<GalleryVideo> createState() => _GalleryVideoState();
+}
+
+class _GalleryVideoState extends State<GalleryVideo> {
+  late final VideoPlayerController _controller;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(widget.asset);
+    _controller.setLooping(true);
+    // Browsers only autoplay muted videos.
+    _controller.setVolume(0);
+    _controller
+        .initialize()
+        .then((_) {
+          if (!mounted) return;
+          setState(() {});
+          if (widget.isActive) _controller.play();
+        })
+        .catchError((Object _) {
+          if (mounted) setState(() => _failed = true);
+        });
+  }
+
+  @override
+  void didUpdateWidget(GalleryVideo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isActive == oldWidget.isActive ||
+        !_controller.value.isInitialized) {
+      return;
+    }
+    widget.isActive ? _controller.play() : _controller.pause();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_failed) {
+      return const Center(
+        child: Icon(Icons.videocam_off, color: AppColors.slate, size: 20),
+      );
+    }
+
+    if (!_controller.value.isInitialized) {
+      return const Center(
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.slate,
+          ),
+        ),
+      );
+    }
+
+    return AspectRatio(
+      aspectRatio: _controller.value.aspectRatio,
+      child: VideoPlayer(_controller),
     );
   }
 }
